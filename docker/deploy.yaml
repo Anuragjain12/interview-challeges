@@ -1,0 +1,10 @@
+---
+- name: take the latest local changes
+  hosts: all
+  become: true
+
+  tasks:
+          - name: make changes
+            command: docker-compose up -d --no-deps --build web
+            args:
+                    chdir: /apps/new/interview-challeges/docker
