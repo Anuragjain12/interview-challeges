@@ -30,11 +30,11 @@ variable "files" {
     {
         name="filename7"
         content="content7"
+    },
+    {
+        name="filename8"
+       content="content10"
     }
-    #{
-    #    name="filename8"
-   #     content="content8"
-   # }
 ]
 
     # default = [{
@@ -46,39 +46,10 @@ variable "files" {
     # }]
 }
 
-#data "local_file" "new" {
-#count    = length(var.files)
-#resource "local_file" "files1" {
-#count = length("./test-${var.files[count.index].name}") > 0 ? 0 : 1
-#filename = "./test-${var.files[count.index].name}"
-#content  = var.files[count.index].content
-#}
-#}
-#resource "local_file" "files1" {
-#    count    = length(var.files)
-    #content  = var.files[count.index].content
-    #count = "./test-${var.files[count.index].name}" ? 0 : 1
-    #length("./test-${var.files[count.index].name}") > 0 ? [] : [filename = "./test-${var.files[count.index].name}" && content  = var.files[count.index].content]
-    #content  = var.files[count.index].content
-    #filename = "./test-${var.files[count.index].name}"
-#    fileexists("./test-${var.files[count.index].name}") == true ? 0 : 1
-#}
-
 resource "local_file" "files1" {
-    count    = length(var.files)
-    content  = var.files[count.index].content
-    filename = "./test-${var.files[count.index].name}"
-}
-
-data "local_file" "files1_bar" {
-  count    = length(var.files)
-  filename   = "./test-${var.files[count.index].name}"
-  depends_on = ["local_file.files1"]
-}
-
-resource "null_resource" "new" {
-  count    = length(var.files)
-  triggers = {
-    files_file = "${data.local_file.files1_bar[count.index].content}"
-  }
+    #for_each = var.files
+   #{for val in var.files : val.name => val}
+    for_each = {for val in var.files : val.name => val}
+    content  = each.value.content
+    filename = "./test-${each.value.name}"
 }
