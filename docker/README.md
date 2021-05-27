@@ -8,4 +8,4 @@ Since the container should not be executed with root user so few modifications a
 5) No changes are required in docker-compose file just need to take care that the port used is beyond 1024 as all the ports below  1024 are reservers for root processes.
 6) Will have to run this command to take local changes into effect:
    docker-compose up -d --no-deps --build web
-7) 
+7) For automation have added ansible playbook as well. But for that few OS level chnanges are required to add the required users in visudo and sshd_config file and to add ssh-key gen file too. This step can be ignored as well.
